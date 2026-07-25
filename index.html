@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Ares - PMP Arcade</title>
-    <!-- Import Google Font for playful, round typography -->
+    <title>Project Ares - PMP Exam Simulator</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; font-family: 'Fredoka', cursive, sans-serif; }
@@ -14,7 +13,6 @@
             min-height: 100vh; margin: 0; padding: 20px; 
         }
         
-        /* Main Arcade Card */
         .game-card { 
             width: 100%; max-width: 800px; 
             background: #ffffff; 
@@ -24,7 +22,42 @@
             overflow: hidden; position: relative;
         }
 
-        /* Top Playful HUD Bar */
+        /* Welcome / Start Screen Styles */
+        .welcome-screen {
+            padding: 40px 30px; text-align: center; background: #ffffff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .logo-icon {
+            font-size: 70px; background: #ffbc00; width: 120px; height: 120px;
+            border-radius: 50%; border: 6px solid #2b1055; display: flex;
+            justify-content: center; align-items: center; box-shadow: 0 8px 0 #2b1055;
+            margin-bottom: 20px; animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .welcome-title { font-size: 2.2rem; color: #2b1055; margin: 0 0 5px 0; font-weight: 700; }
+        .welcome-subtitle { font-size: 1.2rem; color: #ff007f; font-weight: 700; margin-bottom: 20px; }
+        
+        .intro-box {
+            background: #f4f0ff; border: 4px solid #2b1055; border-radius: 18px;
+            padding: 20px; text-align: left; margin-bottom: 25px; color: #2b1055;
+            font-size: 1.05rem; line-height: 1.5; box-shadow: 0 5px 0 #2b1055;
+        }
+        .feature-list { margin: 10px 0 0 0; padding-left: 20px; }
+        .feature-list li { margin-bottom: 8px; }
+
+        .start-btn {
+            background: #00f0ff; color: #2b1055; border: 5px solid #2b1055;
+            padding: 18px 40px; font-size: 1.5rem; font-weight: 700; border-radius: 20px;
+            cursor: pointer; box-shadow: 0 8px 0 #2b1055; text-transform: uppercase;
+            transition: all 0.1s ease;
+        }
+        .start-btn:hover { background: #ffbc00; transform: translateY(-3px); box-shadow: 0 11px 0 #2b1055; }
+        .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #2b1055; }
+
+        /* HUD & Gameplay Styles */
+        .game-content { display: none; }
+        
         .hud { 
             display: flex; justify-content: space-between; align-items: center;
             background: #ffbc00; padding: 15px 25px; 
@@ -35,7 +68,6 @@
             border-radius: 50px; border: 3px solid #2b1055; box-shadow: 0 4px 0 #2b1055;
         }
 
-        /* Progress Bar */
         .progress-container {
             width: 100%; background: #e0e0e0; height: 16px; border-bottom: 4px solid #2b1055;
         }
@@ -44,7 +76,6 @@
             width: 0%; transition: width 0.4s ease;
         }
 
-        /* Character & Dialogue Screen */
         .stage {
             background: #f4f0ff; padding: 25px; text-align: center; position: relative;
             min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -57,10 +88,7 @@
             animation: bounce 2s infinite ease-in-out;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         .speaker-title {
             background: #7f5af0; color: white; padding: 4px 16px; border-radius: 20px;
@@ -70,7 +98,6 @@
             font-size: 1.25rem; color: #2b1055; margin-top: 12px; font-weight: 600; line-height: 1.4;
         }
 
-        /* Playful Arcade Buttons Area */
         .options-area {
             padding: 25px; background: #ffffff; display: flex; flex-direction: column; gap: 12px;
         }
@@ -81,14 +108,9 @@
             cursor: pointer; text-align: left; box-shadow: 0 6px 0 #2b1055;
             transition: all 0.1s ease;
         }
-        .arcade-btn:hover {
-            background: #00f0ff; transform: translateY(-2px); box-shadow: 0 8px 0 #2b1055;
-        }
-        .arcade-btn:active {
-            transform: translateY(4px); box-shadow: 0 2px 0 #2b1055;
-        }
+        .arcade-btn:hover { background: #00f0ff; transform: translateY(-2px); box-shadow: 0 8px 0 #2b1055; }
+        .arcade-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #2b1055; }
 
-        /* Feedback Popups */
         .feedback-banner {
             display: none; padding: 20px; border-radius: 18px; border: 4px solid #2b1055;
             font-size: 1.1rem; font-weight: 700; margin-top: 10px; box-shadow: 0 6px 0 #2b1055;
@@ -109,38 +131,54 @@
 <body>
 
 <div class="game-card">
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-fill" id="progress-fill"></div>
+    <!-- WELCOME / ONBOARDING SCREEN -->
+    <div class="welcome-screen" id="welcome-screen">
+        <div class="logo-icon">🚀</div>
+        <h1 class="welcome-title">PROJECT ARES</h1>
+        <div class="welcome-subtitle">The Interactive PMP® Exam Simulator</div>
+        
+        <div class="intro-box">
+            <strong>Welcome, Commander!</strong> You have been appointed Lead Project Manager for humanity's Mars Colony.
+            <ul class="feature-list">
+                <li>🎮 <strong>Learn by Doing:</strong> Solve real-world project challenges on Mars.</li>
+                <li>🎯 <strong>PMP® Exam Mindset:</strong> Practice Agile, Predictive, and Hybrid decisions.</li>
+                <li>⭐ <strong>Earn Stars:</strong> Get instant feedback based on the PMBOK® Guide.</li>
+            </ul>
+        </div>
+
+        <button class="start-btn" onclick="startGame()">START MISSION 🚀</button>
     </div>
 
-    <!-- Top HUD -->
-    <div class="hud">
-        <div>⭐ Stars: <span id="stars">0</span></div>
-        <div class="badge-pill" id="domain-tag">Agile Mission</div>
-        <div>Level: <span id="level-num">1 / 7</span></div>
-    </div>
+    <!-- GAMEPLAY AREA (Hidden until Start is clicked) -->
+    <div class="game-content" id="game-content">
+        <div class="progress-container">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
 
-    <!-- Stage / Cartoon Avatar -->
-    <div class="stage">
-        <div class="avatar-circle" id="avatar">🧑‍💻</div>
-        <div class="speaker-title" id="speaker">Lead Developer</div>
-        <div class="scenario-text" id="scenario-text">Loading game...</div>
-    </div>
+        <div class="hud">
+            <div>⭐ Stars: <span id="stars">0</span></div>
+            <div class="badge-pill" id="domain-tag">Agile Mission</div>
+            <div>Level: <span id="level-num">1 / 7</span></div>
+        </div>
 
-    <!-- Interactive Options -->
-    <div class="options-area">
-        <div id="options-box" style="display: flex; flex-direction: column; gap: 12px;"></div>
-        <div class="feedback-banner" id="feedback-banner"></div>
-        <button class="next-btn" id="next-btn" onclick="nextScenario()">Next Mission 🚀</button>
+        <div class="stage">
+            <div class="avatar-circle" id="avatar">🧑‍💻</div>
+            <div class="speaker-title" id="speaker">Lead Developer</div>
+            <div class="scenario-text" id="scenario-text">Loading game...</div>
+        </div>
+
+        <div class="options-area">
+            <div id="options-box" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            <div class="feedback-banner" id="feedback-banner"></div>
+            <button class="next-btn" id="next-btn" onclick="nextScenario()">Next Mission 🚀</button>
+        </div>
     </div>
 </div>
 
 <script>
     const database = [
         {
-            domain: "AGILE", topic: "Daily Standup", char: "🧑‍💻", speaker: "Lead Dev",
-            color: "#00f0ff",
+            domain: "AGILE", topic: "Daily Standup", char: "🧑‍💻", speaker: "Lead Dev", color: "#00f0ff",
             scenario: `"I realized we could rewrite the rendering engine. Let me explain the technical architecture for the next 20 minutes..."`,
             correct: `Put the idea in the Parking Lot and discuss it offline after the standup.`,
             wrong1: `Let him speak for 20 minutes to ensure you understand.`,
@@ -148,8 +186,7 @@
             feedback: `🎉 AWESOME! Protect the 15-minute timebox! Servant Leaders move deep discussions offline.`
         },
         {
-            domain: "PREDICTIVE", topic: "Scope Control", char: "👽", speaker: "Alien Sponsor",
-            color: "#ff007f",
+            domain: "PREDICTIVE", topic: "Scope Control", char: "👽", speaker: "Alien Sponsor", color: "#ff007f",
             scenario: `"I know the charter is signed, but I want to add a luxury swimming pool module to the rocket launch. Make it happen!"`,
             correct: `Evaluate the impact on time/cost and submit a Change Request to the CCB.`,
             wrong1: `Say 'No' because a signed charter cannot be changed.`,
@@ -157,8 +194,7 @@
             feedback: `🎉 SPOT ON! In predictive projects, new scope requires Perform Integrated Change Control.`
         },
         {
-            domain: "PREDICTIVE", topic: "Risk Management", char: "🤖", speaker: "Robot Engineer",
-            color: "#ffbc00",
+            domain: "PREDICTIVE", topic: "Risk Management", char: "🤖", speaker: "Robot Engineer", color: "#ffbc00",
             scenario: `"Bad news! The Earth supplier building our titanium habitat walls just filed for bankruptcy. They cannot deliver."`,
             correct: `Update the Risk Register and implement the planned risk response for supplier failure.`,
             wrong1: `Immediately use Management Reserve to hire a new expensive supplier.`,
@@ -166,8 +202,7 @@
             feedback: `🎉 GREAT JOB! Don't panic! Always update the Risk Register first and use pre-planned responses.`
         },
         {
-            domain: "AGILE", topic: "Technical Debt", char: "👩‍🚀", speaker: "Space Captain",
-            color: "#7f5af0",
+            domain: "AGILE", topic: "Technical Debt", char: "👩‍🚀", speaker: "Space Captain", color: "#7f5af0",
             scenario: `"Our velocity dropped! The old legacy code is too messy to work with. It's slowing down the rover."`,
             correct: `Encourage the team to add refactoring tasks to the backlog and discuss it at the Retrospective.`,
             wrong1: `Mandate that the team works overtime this weekend to clean up the code.`,
@@ -175,8 +210,7 @@
             feedback: `🎉 SUPERB! Empower the team to manage technical debt. Never mandate overtime.`
         },
         {
-            domain: "HYBRID", topic: "Stakeholders", char: "👮", speaker: "Earth Command",
-            color: "#2cb67d",
+            domain: "HYBRID", topic: "Stakeholders", char: "👮", speaker: "Earth Command", color: "#2cb67d",
             scenario: `"I am furious! I demand a detailed 12-month Gantt chart for the Agile software modules."`,
             correct: `Educate the stakeholder on Agile, providing a high-level roadmap and detailed short-term sprint plans.`,
             wrong1: `Refuse the request, explaining that Agile does not use Gantt charts.`,
@@ -184,8 +218,7 @@
             feedback: `🎉 EXACTLY RIGHT! In a Hybrid project, the PM bridges the gap by educating stakeholders.`
         },
         {
-            domain: "PREDICTIVE", topic: "Communications", char: "👩‍🔬", speaker: "Mars Scientist",
-            color: "#ff007f",
+            domain: "PREDICTIVE", topic: "Communications", char: "👩‍🔬", speaker: "Mars Scientist", color: "#ff007f",
             scenario: `"I'm angry! I haven't received any of the weekly soil sample progress reports."`,
             correct: `Review the Stakeholder Register and update the Communications Management Plan to include her.`,
             wrong1: `Apologize and immediately email her the latest progress reports.`,
@@ -193,8 +226,7 @@
             feedback: `🎉 BINGO! Always investigate and follow the process! Check the Register and update the Plan.`
         },
         {
-            domain: "AGILE", topic: "Sprint Events", char: "🛸", speaker: "Station Commander",
-            color: "#00f0ff",
+            domain: "AGILE", topic: "Sprint Events", char: "🛸", speaker: "Station Commander", color: "#00f0ff",
             scenario: `"The Product Owner is sick today and Earth comms are down. Let's just cancel the Sprint Review."`,
             correct: `Hold the Sprint Review anyway to demonstrate the working increment to available stakeholders.`,
             wrong1: `Cancel the Sprint Review and wait until the Product Owner returns.`,
@@ -206,31 +238,33 @@
     let currentIndex = 0;
     let stars = 0;
 
+    function startGame() {
+        document.getElementById("welcome-screen").style.display = "none";
+        document.getElementById("game-content").style.display = "block";
+        loadScenario();
+    }
+
     function loadScenario() {
         if (currentIndex >= database.length) { endGame(); return; }
 
         const currentData = database[currentIndex];
         
-        // Update Progress Bar & HUD
         const fillPercent = ((currentIndex) / database.length) * 100;
         document.getElementById("progress-fill").style.width = fillPercent + "%";
         document.getElementById("level-num").innerText = (currentIndex + 1) + " / " + database.length;
         document.getElementById("domain-tag").innerText = currentData.domain + " - " + currentData.topic;
         
-        // Update Character Stage
         document.getElementById("avatar").innerText = currentData.char;
         document.getElementById("avatar").style.backgroundColor = currentData.color;
         document.getElementById("speaker").innerText = currentData.speaker;
         document.getElementById("scenario-text").innerText = currentData.scenario;
         
-        // Reset Banners & Buttons
         document.getElementById("feedback-banner").style.display = "none";
         document.getElementById("next-btn").style.display = "none";
         const optionsBox = document.getElementById("options-box");
         optionsBox.style.display = "flex";
         optionsBox.innerHTML = ""; 
 
-        // Shuffle Choices
         let choices = [
             { text: currentData.correct, isCorrect: true },
             { text: currentData.wrong1, isCorrect: false },
@@ -284,9 +318,6 @@
         document.getElementById("feedback-banner").style.display = "none";
         document.getElementById("next-btn").style.display = "none";
     }
-
-    // Start Game
-    loadScenario();
 </script>
 
 </body>
