@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Ares - Mars Colony Simulator</title>
+    <title>Project Ares - Pro PMP Simulator</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; font-family: 'Fredoka', cursive, sans-serif; }
@@ -14,7 +14,7 @@
         }
         
         .sim-card { 
-            width: 100%; max-width: 900px; 
+            width: 100%; max-width: 950px; 
             background: #ffffff; 
             border: 6px solid #ffbc00; 
             border-radius: 25px; 
@@ -22,23 +22,21 @@
             overflow: hidden;
         }
 
-        /* Top KPI Dashboard */
+        /* Top EVM & KPI Dashboard */
         .dashboard-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            background: #ffbc00; padding: 15px; gap: 10px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            background: #ffbc00; padding: 15px; gap: 8px;
             border-bottom: 6px solid #2b1055; text-align: center;
         }
         .kpi-box {
             background: #ffffff; border: 3px solid #2b1055; border-radius: 12px;
-            padding: 8px 5px; box-shadow: 0 4px 0 #2b1055;
+            padding: 8px 4px; box-shadow: 0 4px 0 #2b1055;
         }
-        .kpi-title { font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #7f5af0; }
-        .kpi-value { font-size: 1.1rem; font-weight: 700; color: #2b1055; }
+        .kpi-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: #7f5af0; }
+        .kpi-value { font-size: 1.05rem; font-weight: 700; color: #2b1055; }
 
-        /* Welcome / Start Screen */
-        .welcome-screen {
-            padding: 40px 30px; text-align: center; background: #ffffff;
-        }
+        /* Welcome Screen */
+        .welcome-screen { padding: 40px 30px; text-align: center; background: #ffffff; }
         .logo-icon {
             font-size: 70px; background: #00f0ff; width: 110px; height: 110px;
             border-radius: 50%; border: 6px solid #2b1055; display: inline-flex;
@@ -61,29 +59,42 @@
         .timeline-header {
             display: flex; justify-content: space-between; align-items: center;
             background: #7f5af0; color: white; padding: 12px 20px; border-radius: 15px;
-            border: 4px solid #2b1055; box-shadow: 0 5px 0 #2b1055; margin-bottom: 20px;
+            border: 4px solid #2b1055; box-shadow: 0 5px 0 #2b1055; margin-bottom: 15px;
             font-size: 1.1rem; font-weight: 700;
         }
 
+        /* PM Action Panel */
+        .action-panel {
+            background: #ffffff; border: 4px solid #2b1055; border-radius: 18px;
+            padding: 15px; margin-bottom: 15px; box-shadow: 0 5px 0 #2b1055;
+        }
+        .action-title { font-size: 0.95rem; font-weight: 700; color: #7f5af0; margin-bottom: 10px; text-transform: uppercase; }
+        .action-btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .act-btn {
+            background: #eef2ff; color: #2b1055; border: 3px solid #2b1055; padding: 10px 15px;
+            border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+            box-shadow: 0 3px 0 #2b1055; transition: 0.1s; flex: 1; text-align: center;
+        }
+        .act-btn:hover { background: #ffbc00; }
+        .act-btn.active { background: #00f0ff; box-shadow: 0 1px 0 #2b1055; transform: translateY(2px); }
+
         .event-card {
             background: #ffffff; border: 4px solid #2b1055; border-radius: 20px;
-            padding: 20px; box-shadow: 0 6px 0 #2b1055; margin-bottom: 20px;
+            padding: 20px; box-shadow: 0 6px 0 #2b1055; margin-bottom: 15px;
         }
-        .event-speaker {
-            display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
-        }
+        .event-speaker { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
         .speaker-avatar {
-            font-size: 40px; background: #00f0ff; width: 65px; height: 65px;
+            font-size: 40px; background: #00f0ff; width: 60px; height: 60px;
             border-radius: 50%; border: 3px solid #2b1055; display: flex;
             justify-content: center; align-items: center; box-shadow: 0 4px 0 #2b1055;
         }
-        .speaker-info { font-weight: 700; font-size: 1.2rem; color: #2b1055; }
-        .event-description { font-size: 1.1rem; line-height: 1.45; color: #2b1055; font-weight: 600; }
+        .speaker-info { font-weight: 700; font-size: 1.1rem; color: #2b1055; }
+        .event-description { font-size: 1.05rem; line-height: 1.45; color: #2b1055; font-weight: 600; }
 
-        .choices-container { display: flex; flex-direction: column; gap: 12px; }
+        .choices-container { display: flex; flex-direction: column; gap: 10px; }
         .choice-btn {
             background: #ffffff; color: #2b1055; border: 4px solid #2b1055;
-            padding: 15px; font-size: 1.05rem; font-weight: 700; border-radius: 16px;
+            padding: 14px; font-size: 1rem; font-weight: 700; border-radius: 16px;
             cursor: pointer; text-align: left; box-shadow: 0 5px 0 #2b1055;
             transition: all 0.1s ease; line-height: 1.35;
         }
@@ -91,27 +102,25 @@
 
         .consequence-box {
             display: none; background: #ffffff; border: 4px solid #2b1055; border-radius: 18px;
-            padding: 20px; box-shadow: 0 6px 0 #2b1055; margin-top: 15px;
+            padding: 18px; box-shadow: 0 6px 0 #2b1055; margin-top: 15px;
         }
-        .stat-change { font-weight: 700; font-size: 1rem; margin-bottom: 8px; display: flex; gap: 15px; }
-        .pmi-feedback { background: #eef2ff; padding: 12px; border-radius: 12px; border: 2px solid #2b1055; font-weight: 600; line-height: 1.4; }
+        .pmi-feedback { background: #eef2ff; padding: 12px; border-radius: 12px; border: 2px solid #2b1055; font-weight: 600; line-height: 1.4; margin-top: 8px;}
 
         .next-turn-btn {
             display: none; width: 100%; background: #ffbc00; color: #2b1055;
-            border: 4px solid #2b1055; padding: 16px; font-size: 1.3rem; font-weight: 700;
+            border: 4px solid #2b1055; padding: 16px; font-size: 1.2rem; font-weight: 700;
             border-radius: 16px; cursor: pointer; box-shadow: 0 5px 0 #2b1055; margin-top: 15px;
             text-transform: uppercase; text-align: center;
         }
         .next-turn-btn:hover { background: #ffaa00; }
 
-        /* End Game Summary */
         .game-over-card { display: none; padding: 30px; text-align: center; background: #ffffff; }
     </style>
 </head>
 <body>
 
 <div class="sim-card">
-    <!-- TOP DASHBOARD -->
+    <!-- TOP EVM & KPI DASHBOARD -->
     <div class="dashboard-grid">
         <div class="kpi-box">
             <div class="kpi-title">💰 Budget</div>
@@ -122,11 +131,19 @@
             <div class="kpi-value" id="kpi-schedule">Week 1 / 24</div>
         </div>
         <div class="kpi-box">
-            <div class="kpi-title">🎯 Colony Progress</div>
+            <div class="kpi-title">🎯 Scope</div>
             <div class="kpi-value" id="kpi-progress">0%</div>
         </div>
         <div class="kpi-box">
-            <div class="kpi-title">🔥 Team Morale</div>
+            <div class="kpi-title">📊 CPI (Cost)</div>
+            <div class="kpi-value" id="kpi-cpi" style="color:#2cb67d;">1.00</div>
+        </div>
+        <div class="kpi-box">
+            <div class="kpi-title">📈 SPI (Time)</div>
+            <div class="kpi-value" id="kpi-spi" style="color:#2cb67d;">1.00</div>
+        </div>
+        <div class="kpi-box">
+            <div class="kpi-title">🔥 Morale</div>
             <div class="kpi-value" id="kpi-morale" style="color:#2cb67d;">100%</div>
         </div>
         <div class="kpi-box">
@@ -135,18 +152,18 @@
         </div>
     </div>
 
-    <!-- WELCOME / START SCREEN -->
+    <!-- WELCOME SCREEN -->
     <div class="welcome-screen" id="welcome-screen">
         <div class="logo-icon">🪐</div>
-        <h1 style="font-size:2.2rem; color:#2b1055; margin:0;">PROJECT ARES SIMULATOR</h1>
-        <p style="color:#ff007f; font-weight:700; font-size:1.2rem; margin-top:5px;">Living Colony Management Simulation</p>
+        <h1 style="font-size:2.2rem; color:#2b1055; margin:0;">PROJECT ARES PRO SIMULATOR</h1>
+        <p style="color:#ff007f; font-weight:700; font-size:1.2rem; margin-top:5px;">Real-Time EVM & Colony Simulation</p>
         
-        <div style="background:#f4f0ff; border:4px solid #2b1055; border-radius:18px; padding:20px; text-align:left; max-width:650px; margin:20px auto; box-shadow:0 5px 0 #2b1055;">
-            <strong>Commander's Briefing:</strong> You are taking command of Mars Colony Ares over a 24-week project lifecycle.
+        <div style="background:#f4f0ff; border:4px solid #2b1055; border-radius:18px; padding:20px; text-align:left; max-width:680px; margin:20px auto; box-shadow:0 5px 0 #2b1055;">
+            <strong>Pro PM Briefing:</strong> You have 24 weeks and $1,000,000 to reach <strong>100% Colony Scope</strong>.
             <ul style="margin:10px 0 0 0; padding-left:20px; line-height:1.5;">
-                <li>📊 <strong>Manage Live KPIs:</strong> Balance Budget, Schedule, Progress, Team Morale, and Trust.</li>
-                <li>🔄 <strong>Dynamic Consequences:</strong> Early decisions trigger long-term crises down the road!</li>
-                <li>🧠 <strong>Master PMP Principles:</strong> Learn Predictive, Agile, and Hybrid frameworks under pressure.</li>
+                <li>📊 <strong>EVM Metrics:</strong> Track your <strong>CPI</strong> (Cost Performance Index) and <strong>SPI</strong> (Schedule Performance Index) in real time!</li>
+                <li>🛠️ <strong>Proactive Workload Control:</strong> Set team velocity (Normal, Rush Overtime, or Sprint Rest).</li>
+                <li>🎯 <strong>Strict Victory Condition:</strong> You MUST hit 100% Scope delivered before Week 24 ends!</li>
             </ul>
         </div>
 
@@ -158,6 +175,16 @@
         <div class="timeline-header">
             <span id="phase-tag">PHASE 1: INITIATION</span>
             <span id="week-tag">WEEK 1 OF 24</span>
+        </div>
+
+        <!-- Proactive PM Action Panel -->
+        <div class="action-panel">
+            <div class="action-title">🛠️ PM Decision: Set Team Sprint Workload</div>
+            <div class="action-btn-group">
+                <button class="act-btn active" id="btn-pace-normal" onclick="setPace('normal')">🟢 Normal Pace (Standard Progress)</button>
+                <button class="act-btn" id="btn-pace-rush" onclick="setPace('rush')">⚡ Rush Overtime (+10% Scope, -15% Morale)</button>
+                <button class="act-btn" id="btn-pace-rest" onclick="setPace('rest')">☕ Sprint Rest (0% Scope, +20% Morale)</button>
+            </div>
         </div>
 
         <div class="event-card">
@@ -174,155 +201,172 @@
         <div class="choices-container" id="choices-box"></div>
 
         <div class="consequence-box" id="consequence-box">
-            <div class="stat-change" id="stat-change-text"></div>
+            <div style="font-weight:700; font-size:1.05rem; color:#2b1055;" id="stat-change-text"></div>
             <div class="pmi-feedback" id="pmi-feedback-text"></div>
         </div>
 
         <button class="next-turn-btn" id="next-turn-btn" onclick="nextTurn()">ADVANCE TIMELINE ⏱️</button>
     </div>
 
-    <!-- GAME OVER / FINAL SUMMARY -->
+    <!-- GAME OVER CARD -->
     <div class="game-over-card" id="game-over-card">
         <div style="font-size:70px; margin-bottom:10px;" id="game-over-icon">🏆</div>
         <h1 style="color:#2b1055; margin:0;" id="game-over-title">MISSION COMPLETED</h1>
         <p style="font-size:1.2rem; color:#ff007f; font-weight:700;" id="game-over-summary"></p>
-        <div style="background:#f4f0ff; border:4px solid #2b1055; border-radius:18px; padding:20px; text-align:left; margin:20px 0; font-weight:600;" id="game-over-details"></div>
+        <div style="background:#f4f0ff; border:4px solid #2b1055; border-radius:18px; padding:20px; text-align:left; margin:20px 0; font-weight:600; line-height:1.5;" id="game-over-details"></div>
         <button class="start-btn" onclick="location.reload()">RESTART SIMULATION 🔄</button>
     </div>
 </div>
 
 <script>
-    // Live Game State
+    const TOTAL_BUDGET = 1000000;
+    const TOTAL_WEEKS = 24;
+
     let state = {
         week: 1,
         budget: 1000000,
         progress: 0,
         morale: 100,
         trust: 100,
-        techDebt: 0, // Hidden risk multiplier
+        currentPace: 'normal',
         turnIndex: 0
     };
 
-    // Connected Timeline Simulation Events
     const timelineEvents = [
         {
-            week: 1,
-            phase: "PHASE 1: INITIATION",
-            speaker: "Elon (Project Sponsor)",
-            avatar: "👨‍💼",
-            domain: "Predictive Scope Control",
-            text: `"Welcome to Mars! The Charter is signed for 24 weeks and $1M. However, I want to add a luxury swimming pool module to the initial launch. Make it happen."`,
+            week: 1, phase: "PHASE 1: INITIATION", speaker: "Elon (Project Sponsor)", avatar: "👨‍💼", domain: "Predictive Scope Control",
+            text: `"Welcome to Mars! Charter is baselined for 24 weeks and $1M. However, I want to add an unapproved luxury swimming pool module to the initial launch. Make it happen!"`,
             choices: [
                 {
                     text: "Evaluate time/cost impacts and submit a formal Change Request to the Change Control Board.",
-                    budgetDelta: 0, progressDelta: 5, moraleDelta: 0, trustDelta: 5, techDebtDelta: 0,
-                    feedback: "✅ PMI MINDSET: Perfect! In Predictive projects, baselined charters and scope require Integrated Change Control. You maintained budget and earned sponsor trust."
+                    cost: 20000, scope: 15, morale: 0, trust: 5,
+                    feedback: "✅ PMI MINDSET: Perfect! Baselined scope requires Perform Integrated Change Control. You maintained budget control and earned trust."
                 },
                 {
                     text: "Agree immediately and add the pool to the project plan without formal evaluation.",
-                    budgetDelta: -150000, progressDelta: 0, moraleDelta: -10, trustDelta: 10, techDebtDelta: 20,
-                    feedback: "❌ GOLD PLATING! You burned $150,000 of budget on unapproved scope. Worse, you introduced technical debt into the launch vehicle!"
+                    cost: 150000, scope: 5, morale: -10, trust: 10,
+                    feedback: "❌ GOLD PLATING! You burned $150,000 on unapproved scope. Your CPI (Cost Index) will plummet."
                 },
                 {
                     text: "Flat-out refuse his request, stating a signed charter can never be modified.",
-                    budgetDelta: 0, progressDelta: 0, moraleDelta: 0, trustDelta: -30, techDebtDelta: 0,
-                    feedback: "❌ POOR STAKEHOLDER MANAGEMENT! While you avoided scope creep, flat refusal damages executive trust. Charters CAN change via formal change control."
+                    cost: 0, scope: 0, morale: 0, trust: -35,
+                    feedback: "❌ POOR STAKEHOLDER MANAGEMENT! Flat refusal destroys trust. Charters CAN change via formal change control."
                 }
             ]
         },
         {
-            week: 4,
-            phase: "PHASE 2: AGILE SPRINTS",
-            speaker: "Software Dev Lead",
-            avatar: "🧑‍💻",
-            domain: "Agile Servant Leadership",
-            text: `"Sprint 2 is starting for the Rover AI system. The developers are complaining that messy legacy code (technical debt) is slowing them down by 30%."`,
+            week: 6, phase: "PHASE 2: AGILE SPRINTS", speaker: "Software Dev Lead", avatar: "🧑‍💻", domain: "Agile Servant Leadership",
+            text: `"Sprint 2 is starting for Rover AI. The developers complain that messy legacy code (technical debt) is slowing them down significantly."`,
             choices: [
                 {
-                    text: "Empower the team to add refactoring tasks to the Product Backlog and address it this Sprint.",
-                    budgetDelta: -20000, progressDelta: 15, moraleDelta: 15, trustDelta: 0, techDebtDelta: -20,
-                    feedback: "✅ SERVANT LEADERSHIP: Excellent! Agile PMs empower teams to manage technical debt early. Team morale surged and long-term risk plummeted!"
+                    text: "Empower the team to add refactoring tasks to the Product Backlog and clean it this sprint.",
+                    cost: 40000, scope: 25, morale: 15, trust: 5,
+                    feedback: "✅ SERVANT LEADERSHIP: Excellent! Empowering teams to clear technical debt improves velocity and morale."
                 },
                 {
-                    text: "Mandate mandatory 80-hour work weeks so they finish new features AND clean the code.",
-                    budgetDelta: -10000, progressDelta: 20, moraleDelta: -45, trustDelta: 5, techDebtDelta: -5,
-                    feedback: "❌ BURNOUT WARNING! Mandating overtime destroys team morale (-45%) and creates sustainable pace violations. Watch out for future team crashes!"
+                    text: "Mandate 80-hour work weeks so they complete new features AND clean the code.",
+                    cost: 10000, scope: 30, morale: -40, trust: 5,
+                    feedback: "❌ BURNOUT VIOLATION! Mandating overtime severely damages team morale (-40%) and violates sustainable pace."
                 },
                 {
-                    text: "Tell them to ignore the technical debt and focus 100% on building new features.",
-                    budgetDelta: 0, progressDelta: 10, moraleDelta: -15, trustDelta: -5, techDebtDelta: 35,
-                    feedback: "❌ DANGEROUS SHORTCUT! Ignoring technical debt increased your colony's hidden risk (+35 Tech Debt). This WILL trigger a system failure later!"
+                    text: "Tell them to ignore technical debt and focus strictly on new features.",
+                    cost: 0, scope: 15, morale: -15, trust: -5,
+                    feedback: "❌ SHORTCUT WARNING! Ignoring technical debt causes severe performance issues later."
                 }
             ]
         },
         {
-            week: 10,
-            phase: "PHASE 3: CRISIS & RISK",
-            speaker: "Chief Engineer",
-            avatar: "🤖",
-            domain: "Risk Response Execution",
-            text: `"ALERT! A severe solar storm damaged the primary oxygen scrubber! (Checking system health... Technical Debt level: High)."`,
+            week: 12, phase: "PHASE 3: RISK EXECUTION", speaker: "Chief Engineer", avatar: "🤖", domain: "Risk & Reserves",
+            text: `"ALERT! A severe solar storm damaged the primary oxygen scrubber! Oxygen levels are dropping fast."`,
             choices: [
                 {
                     text: "Execute the pre-planned Risk Response in the Risk Register using Contingency Reserve.",
-                    budgetDelta: -80000, progressDelta: 15, moraleDelta: 5, trustDelta: 10, techDebtDelta: 0,
-                    feedback: "✅ RISK MANAGEMENT EXCELLENCE! Because you documented risks in advance, executing the Contingency Plan restored life support with minimal delay."
+                    cost: 80000, scope: 30, morale: 5, trust: 10,
+                    feedback: "✅ RISK MANAGEMENT EXCELLENCE! Executing pre-planned responses using Contingency Reserve restores life support efficiently."
                 },
                 {
-                    text: "Immediately spend Management Reserve without approval to order a brand new scrubber from Earth.",
-                    budgetDelta: -250000, progressDelta: 5, moraleDelta: -10, trustDelta: -20, techDebtDelta: 0,
-                    feedback: "❌ MANAGEMENT RESERVE VIOLATION! Management reserves require sponsor approval via Change Control. You wiped out a quarter of your remaining budget!"
+                    text: "Spend Management Reserve immediately without approval to order a replacement from Earth.",
+                    cost: 300000, scope: 15, morale: -10, trust: -25,
+                    feedback: "❌ MANAGEMENT RESERVE VIOLATION! Management reserve requires formal approval via Change Control. Your CPI collapsed!"
                 },
                 {
-                    text: "Patch the scrubber with duct tape and force the tired engineering team to monitor it 24/7.",
-                    budgetDelta: -5000, progressDelta: 0, moraleDelta: -30, trustDelta: -25, techDebtDelta: 40,
-                    feedback: "❌ CRITICAL FAILURE! Cutting corners during a crisis destroyed team morale and endangered colony survival."
+                    text: "Patch the scrubber with duct tape and make tired engineers monitor it 24/7.",
+                    cost: 10000, scope: 5, morale: -35, trust: -30,
+                    feedback: "❌ CRITICAL FAILURE! Cutting corners during a crisis destroyed team morale and endangered colony safety."
                 }
             ]
         },
         {
-            week: 18,
-            phase: "PHASE 4: HYBRID ALIGNMENT",
-            speaker: "Earth Command Executive",
-            avatar: "👮",
-            domain: "Hybrid Governance",
-            text: `"Earth Command demands a detailed 12-month Gantt chart for the adaptive software modules, or they will halt funding!"`,
+            week: 18, phase: "PHASE 4: HYBRID GOVERNANCE", speaker: "Earth Command Executive", avatar: "👮", domain: "Hybrid Alignment",
+            text: `"Earth Command demands a detailed 2-year Gantt chart for the Agile software modules, or they will halt funding!"`,
             choices: [
                 {
                     text: "Educate the executive on Agile, offering a high-level roadmap and detailed short-term sprint plans.",
-                    budgetDelta: 0, progressDelta: 20, moraleDelta: 10, trustDelta: 20, techDebtDelta: 0,
-                    feedback: "✅ HYBRID MASTERY! You bridged the gap between traditional predictive stakeholders and adaptive agile teams. Sponsor trust restored!"
+                    cost: 30000, scope: 30, morale: 10, trust: 20,
+                    feedback: "✅ HYBRID MASTERY! Bridging the gap between predictive executives and agile teams restored sponsor trust!"
                 },
                 {
-                    text: "Force the Agile software developers to pause coding for 2 weeks to create a 12-month Gantt chart.",
-                    budgetDelta: -40000, progressDelta: -10, moraleDelta: -25, trustDelta: 10, techDebtDelta: 10,
-                    feedback: "❌ AGILE DISRUPTION! Forcing agile teams to create rigid long-term plans wasted 2 weeks of progress and frustrated developers."
+                    text: "Force the Agile team to pause coding for 2 weeks to create a 2-year Gantt chart.",
+                    cost: 50000, scope: -5, morale: -25, trust: 10,
+                    feedback: "❌ AGILE DISRUPTION! Forcing detailed long-term task estimates on agile teams wastes sprint velocity."
                 },
                 {
-                    text: "Refuse the request outright, stating that Agile teams never create Gantt charts.",
-                    budgetDelta: 0, progressDelta: 0, moraleDelta: 0, trustDelta: -40, techDebtDelta: 0,
-                    feedback: "❌ STAKEHOLDER FRICTION! Refusing to compromise with traditional executives severely damaged trust (-40%)."
+                    text: "Refuse the request outright, stating Agile teams never create Gantt charts.",
+                    cost: 0, scope: 0, morale: 0, trust: -45,
+                    feedback: "❌ STAKEHOLDER FRICTION! Refusing to compromise with traditional executives destroyed executive trust."
                 }
             ]
         }
     ];
 
-    function startSimulation() {
-        document.getElementById("welcome-screen").style.display = "none";
-        document.getElementById("sim-content").style.display = "block";
-        loadTurn();
+    function setPace(pace) {
+        state.currentPace = pace;
+        document.getElementById("btn-pace-normal").className = "act-btn " + (pace==='normal'?'active':'');
+        document.getElementById("btn-pace-rush").className = "act-btn " + (pace==='rush'?'active':'');
+        document.getElementById("btn-pace-rest").className = "act-btn " + (pace==='rest'?'active':'');
+    }
+
+    function calculateEVM() {
+        // PV = Planned Value (Progress expected by current week)
+        let PV = (state.week / TOTAL_WEEKS) * TOTAL_BUDGET;
+        // EV = Earned Value (Value of actual scope completed)
+        let EV = (state.progress / 100) * TOTAL_BUDGET;
+        // AC = Actual Cost (Money spent)
+        let AC = TOTAL_BUDGET - state.budget;
+
+        // CPI = EV / AC (Cost Performance Index)
+        let CPI = AC > 0 ? (EV / AC).toFixed(2) : "1.00";
+        // SPI = EV / PV (Schedule Performance Index)
+        let SPI = PV > 0 ? (EV / PV).toFixed(2) : "1.00";
+
+        return { CPI, SPI };
     }
 
     function updateDashboard() {
         document.getElementById("kpi-budget").innerText = "$" + state.budget.toLocaleString();
-        document.getElementById("kpi-schedule").innerText = "Week " + state.week + " / 24";
+        document.getElementById("kpi-schedule").innerText = "Week " + state.week + " / " + TOTAL_WEEKS;
         document.getElementById("kpi-progress").innerText = state.progress + "%";
         
+        const evm = calculateEVM();
+        const cpiEl = document.getElementById("kpi-cpi");
+        cpiEl.innerText = evm.CPI;
+        cpiEl.style.color = evm.CPI >= 1.0 ? "#2cb67d" : "#ff007f";
+
+        const spiEl = document.getElementById("kpi-spi");
+        spiEl.innerText = evm.SPI;
+        spiEl.style.color = evm.SPI >= 1.0 ? "#2cb67d" : "#ff007f";
+
         const moraleEl = document.getElementById("kpi-morale");
         moraleEl.innerText = state.morale + "%";
         moraleEl.style.color = state.morale > 70 ? "#2cb67d" : (state.morale > 40 ? "#ffbc00" : "#ff007f");
 
         document.getElementById("kpi-trust").innerText = state.trust + "%";
+    }
+
+    function startSimulation() {
+        document.getElementById("welcome-screen").style.display = "none";
+        document.getElementById("sim-content").style.display = "block";
+        loadTurn();
     }
 
     function loadTurn() {
@@ -332,12 +376,11 @@
         }
 
         const ev = timelineEvents[state.turnIndex];
-
         state.week = ev.week;
         updateDashboard();
 
         document.getElementById("phase-tag").innerText = ev.phase;
-        document.getElementById("week-tag").innerText = "WEEK " + ev.week + " OF 24";
+        document.getElementById("week-tag").innerText = "WEEK " + ev.week + " OF " + TOTAL_WEEKS;
         document.getElementById("event-speaker-name").innerText = ev.speaker;
         document.getElementById("event-avatar").innerText = ev.avatar;
         document.getElementById("event-domain").innerText = ev.domain;
@@ -362,24 +405,25 @@
     function makeChoice(choice) {
         document.getElementById("choices-box").style.display = "none";
 
-        // Apply Delta Stats
-        state.budget += choice.budgetDelta;
-        state.progress = Math.min(100, state.progress + choice.progressDelta);
-        state.morale = Math.max(0, Math.min(100, state.morale + choice.moraleDelta));
-        state.trust = Math.max(0, Math.min(100, state.trust + choice.trustDelta));
-        state.techDebt += choice.techDebtDelta;
+        // Apply PM Workload Pace Effects
+        let paceScopeBonus = 0;
+        let paceMoraleBonus = 0;
+        if (state.currentPace === 'rush') { paceScopeBonus = 10; paceMoraleBonus = -15; }
+        if (state.currentPace === 'rest') { paceScopeBonus = -5; paceMoraleBonus = 20; }
+
+        // Apply Decision Deltas
+        state.budget -= choice.cost;
+        state.progress = Math.min(100, Math.max(0, state.progress + choice.scope + paceScopeBonus));
+        state.morale = Math.min(100, Math.max(0, state.morale + choice.morale + paceMoraleBonus));
+        state.trust = Math.min(100, Math.max(0, state.trust + choice.trust));
 
         updateDashboard();
 
-        // Show Consequence & PMI Feedback
         const cBox = document.getElementById("consequence-box");
         cBox.style.display = "block";
 
         document.getElementById("stat-change-text").innerHTML = `
-            <span>💰 Budget: ${choice.budgetDelta >= 0 ? '+' : ''}$${choice.budgetDelta.toLocaleString()}</span>
-            <span>🎯 Progress: +${choice.progressDelta}%</span>
-            <span>🔥 Morale: ${choice.moraleDelta >= 0 ? '+' : ''}${choice.moraleDelta}%</span>
-            <span>🤝 Trust: ${choice.trustDelta >= 0 ? '+' : ''}${choice.trustDelta}%</span>
+            💰 Cost: -$${choice.cost.toLocaleString()} | 🎯 Scope: +${choice.scope + paceScopeBonus}% | 🔥 Morale: ${choice.morale + paceMoraleBonus}% | 🤝 Trust: ${choice.trust >= 0 ? '+' : ''}${choice.trust}%
         `;
         document.getElementById("pmi-feedback-text").innerText = choice.feedback;
 
@@ -400,28 +444,36 @@
         const summaryEl = document.getElementById("game-over-summary");
         const detailsEl = document.getElementById("game-over-details");
 
-        if (state.budget > 0 && state.morale > 20 && state.trust > 40) {
+        const evm = calculateEVM();
+
+        // Strict Win Condition: Scope MUST be 100%, Budget > 0, Morale > 20, Trust > 40
+        if (state.progress >= 100 && state.budget > 0 && state.morale > 20 && state.trust > 40) {
             iconEl.innerText = "🏆";
-            titleEl.innerText = "MISSION SUCCESSFUL!";
-            summaryEl.innerText = "Colony Ares is fully operational!";
+            titleEl.innerText = "MISSION ACCOMPLISHED!";
+            summaryEl.innerText = "Colony Ares reached 100% completion!";
             detailsEl.innerHTML = `
-                <strong>Final Performance Audit:</strong><br><br>
+                <strong>Final Performance Audit:</strong><br>
+                🎯 Final Scope: 100% Complete<br>
                 💰 Remaining Budget: $${state.budget.toLocaleString()}<br>
-                🎯 Final Colony Scope: ${state.progress}% Complete<br>
+                📊 Final CPI (Cost Efficiency): ${evm.CPI} ${evm.CPI >= 1.0 ? '✅ (Under Budget)' : '⚠️ (Over Budget)'}<br>
+                📈 Final SPI (Schedule Efficiency): ${evm.SPI} ${evm.SPI >= 1.0 ? '✅ (Ahead of Schedule)' : '⚠️ (Behind Schedule)'}<br>
                 🔥 Final Team Morale: ${state.morale}%<br>
                 🤝 Executive Trust: ${state.trust}%<br><br>
-                <em>Verdict: You demonstrated exceptional alignment with the PMBOK Guide 7th Edition and Agile Practice Principles!</em>
+                <em>Verdict: PASS! Exceptional application of PMBOK 7th Edition & Agile Practice Principles!</em>
             `;
         } else {
             iconEl.innerText = "💥";
             titleEl.innerText = "MISSION FAILED";
-            summaryEl.innerText = "Project Ares collapsed due to management failure.";
+            summaryEl.innerText = "Project Ares failed to meet baseline standards.";
             detailsEl.innerHTML = `
-                <strong>Failure Breakdown:</strong><br><br>
-                ${state.budget <= 0 ? '❌ Budget Overrun: You ran out of funds!<br>' : ''}
-                ${state.morale <= 20 ? '❌ Team Burnout: Your team quit due to unsustainable work conditions!<br>' : ''}
-                ${state.trust <= 40 ? '❌ Executive Revocation: Earth Command lost trust and cancelled funding!<br>' : ''}
-                <br><em>Tip: Balance scope management with team morale and formal change control!</em>
+                <strong>Failure Audit Breakdown:</strong><br>
+                ${state.progress < 100 ? `❌ Incomplete Scope: Delivered only ${state.progress}% of 100% required Colony Scope!<br>` : ''}
+                ${state.budget <= 0 ? '❌ Bankruptcy: Budget depleted before completion!<br>' : ''}
+                ${state.morale <= 20 ? '❌ Team Burnout: Team quit due to unsustainable work conditions!<br>' : ''}
+                ${state.trust <= 40 ? '❌ Trust Revocation: Earth Command cancelled project funding!<br>' : ''}
+                <br>
+                📊 Final CPI: ${evm.CPI} | 📈 Final SPI: ${evm.SPI}<br><br>
+                <em>Tip: Use Sprint Workload Controls and Integrated Change Control to hit 100% Scope!</em>
             `;
         }
     }
