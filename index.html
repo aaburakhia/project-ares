@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Ares - PMP Exam Simulator</title>
+    <title>Project Ares - PMP Pro Exam Simulator</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; font-family: 'Fredoka', cursive, sans-serif; }
@@ -14,7 +14,7 @@
         }
         
         .game-card { 
-            width: 100%; max-width: 800px; 
+            width: 100%; max-width: 850px; 
             background: #ffffff; 
             border: 6px solid #2b1055; 
             border-radius: 25px; 
@@ -22,7 +22,7 @@
             overflow: hidden; position: relative;
         }
 
-        /* Welcome / Start Screen Styles */
+        /* Welcome Screen */
         .welcome-screen {
             padding: 40px 30px; text-align: center; background: #ffffff;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -55,7 +55,7 @@
         .start-btn:hover { background: #ffbc00; transform: translateY(-3px); box-shadow: 0 11px 0 #2b1055; }
         .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #2b1055; }
 
-        /* HUD & Gameplay Styles */
+        /* Gameplay Area */
         .game-content { display: none; }
         
         .hud { 
@@ -68,88 +68,92 @@
             border-radius: 50px; border: 3px solid #2b1055; box-shadow: 0 4px 0 #2b1055;
         }
 
-        .progress-container {
-            width: 100%; background: #e0e0e0; height: 16px; border-bottom: 4px solid #2b1055;
-        }
-        .progress-fill {
-            height: 100%; background: linear-gradient(90deg, #00f0ff, #7f5af0);
-            width: 0%; transition: width 0.4s ease;
-        }
+        .progress-container { width: 100%; background: #e0e0e0; height: 16px; border-bottom: 4px solid #2b1055; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #00f0ff, #7f5af0); width: 0%; transition: width 0.4s ease; }
 
         .stage {
             background: #f4f0ff; padding: 25px; text-align: center; position: relative;
             min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .avatar-circle {
-            width: 100px; height: 100px; background: #00f0ff; 
+            width: 90px; height: 90px; background: #00f0ff; 
             border: 5px solid #2b1055; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-size: 55px;
-            box-shadow: 0 8px 0 #2b1055; margin-bottom: 15px;
+            display: flex; justify-content: center; align-items: center; font-size: 50px;
+            box-shadow: 0 6px 0 #2b1055; margin-bottom: 12px;
             animation: bounce 2s infinite ease-in-out;
         }
-
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
         .speaker-title {
             background: #7f5af0; color: white; padding: 4px 16px; border-radius: 20px;
-            font-size: 1rem; border: 3px solid #2b1055; font-weight: 700; display: inline-block;
+            font-size: 0.95rem; border: 3px solid #2b1055; font-weight: 700; display: inline-block;
         }
         .scenario-text {
-            font-size: 1.25rem; color: #2b1055; margin-top: 12px; font-weight: 600; line-height: 1.4;
+            font-size: 1.15rem; color: #2b1055; margin-top: 12px; font-weight: 600; line-height: 1.45; text-align: left;
         }
 
-        .options-area {
-            padding: 25px; background: #ffffff; display: flex; flex-direction: column; gap: 12px;
-        }
+        .options-area { padding: 25px; background: #ffffff; display: flex; flex-direction: column; gap: 10px; }
 
         .arcade-btn {
             background: #ffffff; color: #2b1055; border: 4px solid #2b1055;
-            padding: 16px 20px; font-size: 1.1rem; font-weight: 700; border-radius: 18px;
-            cursor: pointer; text-align: left; box-shadow: 0 6px 0 #2b1055;
-            transition: all 0.1s ease;
+            padding: 14px 18px; font-size: 1.05rem; font-weight: 700; border-radius: 16px;
+            cursor: pointer; text-align: left; box-shadow: 0 5px 0 #2b1055;
+            transition: all 0.1s ease; line-height: 1.3;
         }
-        .arcade-btn:hover { background: #00f0ff; transform: translateY(-2px); box-shadow: 0 8px 0 #2b1055; }
-        .arcade-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #2b1055; }
+        .arcade-btn:hover { background: #00f0ff; transform: translateY(-2px); box-shadow: 0 7px 0 #2b1055; }
+        .arcade-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #2b1055; }
 
         .feedback-banner {
-            display: none; padding: 20px; border-radius: 18px; border: 4px solid #2b1055;
-            font-size: 1.1rem; font-weight: 700; margin-top: 10px; box-shadow: 0 6px 0 #2b1055;
+            display: none; padding: 18px; border-radius: 16px; border: 4px solid #2b1055;
+            font-size: 1.05rem; font-weight: 700; margin-top: 5px; box-shadow: 0 5px 0 #2b1055; line-height: 1.4;
         }
         .success-bg { background: #2cb67d; color: white; }
         .error-bg { background: #ff007f; color: white; }
 
         .next-btn {
             display: none; width: 100%; background: #ffbc00; color: #2b1055;
-            border: 4px solid #2b1055; padding: 18px; font-size: 1.3rem; font-weight: 700;
-            border-radius: 18px; cursor: pointer; box-shadow: 0 6px 0 #2b1055; margin-top: 15px;
+            border: 4px solid #2b1055; padding: 16px; font-size: 1.2rem; font-weight: 700;
+            border-radius: 16px; cursor: pointer; box-shadow: 0 5px 0 #2b1055; margin-top: 10px;
             text-transform: uppercase; text-align: center;
         }
         .next-btn:hover { background: #ffaa00; }
-        .next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #2b1055; }
+
+        /* Mission Debrief / Review Screen */
+        .debrief-screen { display: none; padding: 30px; background: #f4f0ff; max-height: 80vh; overflow-y: auto; }
+        .debrief-header { text-align: center; margin-bottom: 25px; }
+        .review-card {
+            background: #ffffff; border: 4px solid #2b1055; border-radius: 18px;
+            padding: 20px; margin-bottom: 18px; box-shadow: 0 5px 0 #2b1055; text-align: left;
+        }
+        .review-card.correct-border { border-left: 12px solid #2cb67d; }
+        .review-card.wrong-border { border-left: 12px solid #ff007f; }
+        .review-title { font-weight: 700; font-size: 1.1rem; color: #2b1055; margin-bottom: 8px; }
+        .review-detail { font-size: 0.95rem; color: #444; margin-bottom: 6px; }
+        .review-explanation { background: #eef2ff; padding: 12px; border-radius: 10px; border: 2px solid #2b1055; font-size: 0.95rem; margin-top: 8px; font-weight: 600; }
     </style>
 </head>
 <body>
 
 <div class="game-card">
-    <!-- WELCOME / ONBOARDING SCREEN -->
+    <!-- WELCOME SCREEN -->
     <div class="welcome-screen" id="welcome-screen">
         <div class="logo-icon">🚀</div>
         <h1 class="welcome-title">PROJECT ARES</h1>
-        <div class="welcome-subtitle">The Interactive PMP® Exam Simulator</div>
+        <div class="welcome-subtitle">Professional PMP® Exam Simulator</div>
         
         <div class="intro-box">
-            <strong>Welcome, Commander!</strong> You have been appointed Lead Project Manager for humanity's Mars Colony.
+            <strong>Welcome, Commander!</strong> You are Lead PM for humanity's Mars Colony.
             <ul class="feature-list">
-                <li>🎮 <strong>Learn by Doing:</strong> Solve real-world project challenges on Mars.</li>
-                <li>🎯 <strong>PMP® Exam Mindset:</strong> Practice Agile, Predictive, and Hybrid decisions.</li>
-                <li>⭐ <strong>Earn Stars:</strong> Get instant feedback based on the PMBOK® Guide.</li>
+                <li>🎯 <strong>4 Options per Question:</strong> Matches real PMP® exam format (A, B, C, D).</li>
+                <li>🧠 <strong>Situational Complexity:</strong> Multi-layered Agile, Predictive, & Hybrid scenarios.</li>
+                <li>📊 <strong>Post-Game Review:</strong> Detailed exam debrief explaining your mistakes.</li>
             </ul>
         </div>
 
         <button class="start-btn" onclick="startGame()">START MISSION 🚀</button>
     </div>
 
-    <!-- GAMEPLAY AREA (Hidden until Start is clicked) -->
+    <!-- GAMEPLAY AREA -->
     <div class="game-content" id="game-content">
         <div class="progress-container">
             <div class="progress-fill" id="progress-fill"></div>
@@ -158,7 +162,7 @@
         <div class="hud">
             <div>⭐ Stars: <span id="stars">0</span></div>
             <div class="badge-pill" id="domain-tag">Agile Mission</div>
-            <div>Level: <span id="level-num">1 / 7</span></div>
+            <div>Level: <span id="level-num">1 / 4</span></div>
         </div>
 
         <div class="stage">
@@ -168,75 +172,67 @@
         </div>
 
         <div class="options-area">
-            <div id="options-box" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            <div id="options-box" style="display: flex; flex-direction: column; gap: 10px;"></div>
             <div class="feedback-banner" id="feedback-banner"></div>
             <button class="next-btn" id="next-btn" onclick="nextScenario()">Next Mission 🚀</button>
         </div>
     </div>
+
+    <!-- MISSION DEBRIEF / REVIEW SCREEN -->
+    <div class="debrief-screen" id="debrief-screen">
+        <div class="debrief-header">
+            <h1 style="color:#2b1055; margin:0;">🏆 MISSION DEBRIEF</h1>
+            <p id="final-score-text" style="font-size:1.3rem; color:#ff007f; font-weight:700; margin:5px 0 0 0;"></p>
+        </div>
+        <div id="review-list"></div>
+        <button class="start-btn" onclick="location.reload()" style="width:100%; margin-top:10px;">REPLAY MISSION 🔄</button>
+    </div>
 </div>
 
 <script>
+    // Harder, realistic PMP Exam scenarios with 4 choices (A, B, C, D)
     const database = [
         {
-            domain: "AGILE", topic: "Daily Standup", char: "🧑‍💻", speaker: "Lead Dev", color: "#00f0ff",
-            scenario: `"I realized we could rewrite the rendering engine. Let me explain the technical architecture for the next 20 minutes..."`,
-            correct: `Put the idea in the Parking Lot and discuss it offline after the standup.`,
-            wrong1: `Let him speak for 20 minutes to ensure you understand.`,
-            wrong2: `Yell at him and tell him to wait his turn.`,
-            feedback: `🎉 AWESOME! Protect the 15-minute timebox! Servant Leaders move deep discussions offline.`
+            domain: "AGILE", topic: "Technical Debt & Backlog", char: "🧑‍💻", speaker: "Scrum Team", color: "#00f0ff",
+            scenario: `You are managing a hybrid Mars habitat project. During Sprint 3, the cross-functional software team reveals that unexpected regulatory standards from Earth Command require significant rework of the life-support code. Team velocity is already dropping due to unresolved technical debt. What should you do FIRST?`,
+            correct: `A. Facilitate a discussion between the Product Owner and the team to prioritize the regulatory requirements in the Product Backlog.`,
+            wrong1: `B. Submit a formal change request to the Change Control Board (CCB) for scope approval.`,
+            wrong2: `C. Instruct the team to work overtime to complete both the regulatory feature and technical debt refactoring.`,
+            wrong3: `D. Reject the regulatory requirement because it was not included in the original project charter.`,
+            feedback: `PMI Mindset: In Agile/Hybrid software components, the Product Owner manages backlog prioritization. Technical debt and new requirements belong in the Product Backlog, not CCB.`
         },
         {
-            domain: "PREDICTIVE", topic: "Scope Control", char: "👽", speaker: "Alien Sponsor", color: "#ff007f",
-            scenario: `"I know the charter is signed, but I want to add a luxury swimming pool module to the rocket launch. Make it happen!"`,
-            correct: `Evaluate the impact on time/cost and submit a Change Request to the CCB.`,
-            wrong1: `Say 'No' because a signed charter cannot be changed.`,
-            wrong2: `Agree immediately and add it to the project plan to keep him happy.`,
-            feedback: `🎉 SPOT ON! In predictive projects, new scope requires Perform Integrated Change Control.`
+            domain: "PREDICTIVE", topic: "Risk & Reserves", char: "🤖", speaker: "Risk Manager", color: "#ffbc00",
+            scenario: `During execution of the physical launchpad, a severe solar storm damages the primary assembly crane—a risk previously documented in the Risk Register. The pre-approved response is to rent a secondary crane, but the cost exceeds the Contingency Reserve by $50,000. What should the Project Manager do?`,
+            correct: `A. Implement the risk response using the Contingency Reserve and request a Management Reserve allocation for the balance via Integrated Change Control.`,
+            wrong1: `B. Immediately spend the Management Reserve without seeking approval since the risk was already documented.`,
+            wrong2: `C. Perform a quantitative risk analysis to determine if renting the crane is still cost-effective.`,
+            wrong3: `D. Instruct the team to pause work and wait for solar activity to clear before repairing the primary crane.`,
+            feedback: `PMI Mindset: Contingency Reserve covers identified risks. Unforeseen cost overruns beyond contingency require Management Reserve, which MUST go through Change Control.`
         },
         {
-            domain: "PREDICTIVE", topic: "Risk Management", char: "🤖", speaker: "Robot Engineer", color: "#ffbc00",
-            scenario: `"Bad news! The Earth supplier building our titanium habitat walls just filed for bankruptcy. They cannot deliver."`,
-            correct: `Update the Risk Register and implement the planned risk response for supplier failure.`,
-            wrong1: `Immediately use Management Reserve to hire a new expensive supplier.`,
-            wrong2: `Halt the project and call an emergency meeting with the Sponsor.`,
-            feedback: `🎉 GREAT JOB! Don't panic! Always update the Risk Register first and use pre-planned responses.`
+            domain: "HYBRID", topic: "Stakeholder Alignment", char: "👮", speaker: "Earth Sponsor", color: "#2cb67d",
+            scenario: `A key executive from Earth Command demands a traditional, detailed 2-year Gantt chart for an upcoming Agile software release. The executive is threatening to cut funding if the Gantt chart is not provided by Friday. How should the Project Manager handle this situation?`,
+            correct: `A. Meet with the executive to explain Agile delivery principles, and provide a high-level release roadmap alongside detailed sprint plans.`,
+            wrong1: `B. Refuse the request and explain that Agile teams do not create long-term plans or Gantt charts.`,
+            wrong2: `C. Force the Agile development team to pause the current sprint and create a detailed 2-year task schedule.`,
+            wrong3: `D. Escalate the issue to the Steering Committee and request that the executive be removed from the stakeholder list.`,
+            feedback: `PMI Mindset: Hybrid PMs act as translators! Educate traditional stakeholders, offer adaptive roadmaps, and protect the team from detailed long-term task estimates.`
         },
         {
-            domain: "AGILE", topic: "Technical Debt", char: "👩‍🚀", speaker: "Space Captain", color: "#7f5af0",
-            scenario: `"Our velocity dropped! The old legacy code is too messy to work with. It's slowing down the rover."`,
-            correct: `Encourage the team to add refactoring tasks to the backlog and discuss it at the Retrospective.`,
-            wrong1: `Mandate that the team works overtime this weekend to clean up the code.`,
-            wrong2: `Tell the team to ignore the messy code and focus strictly on new features.`,
-            feedback: `🎉 SUPERB! Empower the team to manage technical debt. Never mandate overtime.`
-        },
-        {
-            domain: "HYBRID", topic: "Stakeholders", char: "👮", speaker: "Earth Command", color: "#2cb67d",
-            scenario: `"I am furious! I demand a detailed 12-month Gantt chart for the Agile software modules."`,
-            correct: `Educate the stakeholder on Agile, providing a high-level roadmap and detailed short-term sprint plans.`,
-            wrong1: `Refuse the request, explaining that Agile does not use Gantt charts.`,
-            wrong2: `Force the Agile software team to pause work and estimate tasks for 12 months.`,
-            feedback: `🎉 EXACTLY RIGHT! In a Hybrid project, the PM bridges the gap by educating stakeholders.`
-        },
-        {
-            domain: "PREDICTIVE", topic: "Communications", char: "👩‍🔬", speaker: "Mars Scientist", color: "#ff007f",
-            scenario: `"I'm angry! I haven't received any of the weekly soil sample progress reports."`,
-            correct: `Review the Stakeholder Register and update the Communications Management Plan to include her.`,
-            wrong1: `Apologize and immediately email her the latest progress reports.`,
-            wrong2: `Tell her she is not authorized to receive reports and escalate to the Sponsor.`,
-            feedback: `🎉 BINGO! Always investigate and follow the process! Check the Register and update the Plan.`
-        },
-        {
-            domain: "AGILE", topic: "Sprint Events", char: "🛸", speaker: "Station Commander", color: "#00f0ff",
-            scenario: `"The Product Owner is sick today and Earth comms are down. Let's just cancel the Sprint Review."`,
-            correct: `Hold the Sprint Review anyway to demonstrate the working increment to available stakeholders.`,
-            wrong1: `Cancel the Sprint Review and wait until the Product Owner returns.`,
-            wrong2: `Replace the Sprint Review with a Sprint Retrospective to save time.`,
-            feedback: `🎉 PERFECT! Never cancel Sprint events! The purpose is to inspect and adapt with available stakeholders.`
+            domain: "PREDICTIVE", topic: "Communications Management", char: "👩‍🔬", speaker: "Chief Scientist", color: "#ff007f",
+            scenario: `Halfway through the Mars soil research phase, a lead scientist complains during a steering meeting that she has never received weekly analysis reports. You check your files and confirm she was not included in the original distribution list. What should you do FIRST?`,
+            correct: `A. Review the Stakeholder Register, update it with her requirements, and modify the Communications Management Plan.`,
+            wrong1: `B. Apologize and immediately email her all previous weekly analysis reports.`,
+            wrong2: `C. Tell her to submit a formal change request to be added to the report distribution list.`,
+            wrong3: `D. Escalate to her functional manager to determine if she is authorized to view soil data.`,
+            feedback: `PMI Mindset: Always investigate and update plans FIRST! Before taking action (sending emails), update the Stakeholder Register and Communications Management Plan.`
         }
     ];
 
     let currentIndex = 0;
     let stars = 0;
+    let userHistory = []; // Tracks detailed user choices for the Review Screen!
 
     function startGame() {
         document.getElementById("welcome-screen").style.display = "none";
@@ -265,36 +261,48 @@
         optionsBox.style.display = "flex";
         optionsBox.innerHTML = ""; 
 
+        // 4 Options Array (A, B, C, D)
         let choices = [
             { text: currentData.correct, isCorrect: true },
             { text: currentData.wrong1, isCorrect: false },
-            { text: currentData.wrong2, isCorrect: false }
+            { text: currentData.wrong2, isCorrect: false },
+            { text: currentData.wrong3, isCorrect: false }
         ];
-        choices.sort(() => Math.random() - 0.5);
+        choices.sort(() => Math.random() - 0.5); // Shuffle choices
 
         choices.forEach(choice => {
             let btn = document.createElement("button");
             btn.className = "arcade-btn";
             btn.innerText = choice.text;
-            btn.onclick = () => makeChoice(choice.isCorrect, currentData.feedback);
+            btn.onclick = () => makeChoice(choice.isCorrect, choice.text, currentData);
             optionsBox.appendChild(btn);
         });
     }
 
-    function makeChoice(isCorrect, feedbackText) {
+    function makeChoice(isCorrect, chosenText, currentData) {
         document.getElementById("options-box").style.display = "none";
         const banner = document.getElementById("feedback-banner");
         banner.style.display = "block";
+
+        // Save selection to history for Mission Debrief
+        userHistory.push({
+            scenario: currentData.scenario,
+            domain: currentData.domain + " - " + currentData.topic,
+            chosenText: chosenText,
+            correctText: currentData.correct,
+            isCorrect: isCorrect,
+            feedback: currentData.feedback
+        });
 
         if (isCorrect) {
             stars += 1;
             document.getElementById("stars").innerText = stars;
             banner.className = "feedback-banner success-bg";
-            banner.innerHTML = feedbackText;
+            banner.innerHTML = "✅ CORRECT!<br><br>" + currentData.feedback;
             document.getElementById("avatar").innerText = "🎉";
         } else {
             banner.className = "feedback-banner error-bg";
-            banner.innerHTML = "❌ OOPS! " + feedbackText;
+            banner.innerHTML = "❌ INCORRECT!<br><br>" + currentData.feedback;
             document.getElementById("avatar").innerText = "🙈";
         }
 
@@ -306,17 +314,31 @@
         loadScenario();
     }
 
+    // End of Game: Render Mission Debrief & Report Card
     function endGame() {
-        document.getElementById("progress-fill").style.width = "100%";
-        document.getElementById("domain-tag").innerText = "MISSION COMPLETED!";
-        document.getElementById("avatar").innerText = "🏆";
-        document.getElementById("avatar").style.backgroundColor = "#ffbc00";
-        document.getElementById("speaker").innerText = "Master Project Manager";
-        document.getElementById("scenario-text").innerHTML = `YOU WON THE GAME!<br>Total Stars Earned: ⭐ ${stars} / ${database.length}`;
-        
-        document.getElementById("options-box").style.display = "none";
-        document.getElementById("feedback-banner").style.display = "none";
-        document.getElementById("next-btn").style.display = "none";
+        document.getElementById("game-content").style.display = "none";
+        document.getElementById("debrief-screen").style.display = "block";
+
+        document.getElementById("final-score-text").innerText = `Final Score: ${stars} / ${database.length} Stars Earned!`;
+
+        const reviewList = document.getElementById("review-list");
+        reviewList.innerHTML = "";
+
+        userHistory.forEach((item, index) => {
+            let card = document.createElement("div");
+            card.className = "review-card " + (item.isCorrect ? "correct-border" : "wrong-border");
+            
+            card.innerHTML = `
+                <div class="review-title">${item.isCorrect ? "✅ PASSED" : "❌ FAILED"} - Mission #${index + 1}: ${item.domain}</div>
+                <div class="review-detail"><strong>Scenario:</strong> ${item.scenario}</div>
+                <div class="review-detail" style="color: ${item.isCorrect ? '#2cb67d' : '#ff007f'};">
+                    <strong>Your Choice:</strong> ${item.chosenText}
+                </div>
+                ${!item.isCorrect ? `<div class="review-detail" style="color:#2cb67d;"><strong>Correct PMI Choice:</strong> ${item.correctText}</div>` : ''}
+                <div class="review-explanation"><strong>💡 PMP Rationale:</strong> ${item.feedback}</div>
+            `;
+            reviewList.appendChild(card);
+        });
     }
 </script>
 
